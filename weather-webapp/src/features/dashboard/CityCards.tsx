@@ -18,9 +18,13 @@ interface CityCardData {
     };
 }
 
+interface CityResponseData {
+    cities: CityCardData[];
+}
+
 function CityCards() {
   const accessToken = useSelector((state: RootState) => state.session.accessToken);
-  const [cards, setCards] = useState<CityCardData[]>([]);
+  const [cards, setCards] = useState<CityResponseData>({ cities: [] });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedCity, setSelectedCity] = useState<CityCardData | null>(null);
@@ -28,7 +32,7 @@ function CityCards() {
   useEffect(() => {
     const fetchCards = async () => {
       try {
-        const response = await getCities(accessToken);
+        const response = await getCities(accessToken ?? "default_token");
         setCards(response);
       } catch (err) {
         console.error(err);
@@ -49,7 +53,7 @@ function CityCards() {
   return (
     <>
     <Grid container spacing={3}>
-      {cards.cities?.map((card, index) => (
+      {cards.cities?.map((card: CityCardData, index: number) => (
         <Grid item xs={12} sm={6} md={4} key={index}>
           <Card sx={{ minWidth: 275, boxShadow: 3 }}
                 onClick={() => setSelectedCity(card)} >

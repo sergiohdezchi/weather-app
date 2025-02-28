@@ -1,7 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { loginWithEmailAndPassword, logoutUserWithToken, requestAccessTokenWithRefreshToken } from "../../api/sessionAPI";
-import { RootState, AppThunk } from "../../store";
-
 
 export interface User {
     id?: string;
@@ -143,7 +141,7 @@ export const sessionSlice = createSlice({
         state.error = false;
         state.errorMessages = [];
       })
-      .addCase(loginUser.rejected, (state, action: any) => {
+      .addCase(loginUser.rejected, (state) => {
         state.loading = false;
         state.error = true;
         state.errorMessages = ["Invalid credentials. Did you enter them correctly?"];
@@ -168,7 +166,7 @@ export const sessionSlice = createSlice({
         state.error = false;
         state.errorMessages = [];
       })
-      .addCase(refreshAccessToken.rejected, (state, action: any) => {
+      .addCase(refreshAccessToken.rejected, (state) => {
         state.loading = false;
         state.error = true;
       })
@@ -177,7 +175,7 @@ export const sessionSlice = createSlice({
         state.error = false;
         state.errorMessages = [];
       })
-      .addCase(logoutUser.fulfilled, (state, action: any) => {
+      .addCase(logoutUser.fulfilled, (state) => {
         state.currentUser = {
           id: undefined,
           email: undefined,

@@ -2,6 +2,7 @@
 
 class CitySerializer
   def self.serialize(city)
+    city = city.deep_symbolize_keys
     {
       city_name: city[:city_name],
       city_slug: city[:city_slug],

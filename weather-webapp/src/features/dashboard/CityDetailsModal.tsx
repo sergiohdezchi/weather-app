@@ -17,8 +17,15 @@ interface CityCardData {
   };
 }
 
+interface ForecastData {
+    date: string;
+    weather_description: string;
+    min_temp: number;
+    max_temp: number;
+}
+
 interface CityDetailsModalProps {
-  city: CityCardData;
+  city: CityCardData | null;
   onClose: () => void;
 }
 
@@ -89,7 +96,7 @@ function CityDetailsModal({ city, onClose }: CityDetailsModalProps) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {cityDetails.forecast.map((day, index) => (
+                  {cityDetails.forecast.map((day: ForecastData, index: number) => (
                     <TableRow key={index}>
                       <TableCell>{day.date}</TableCell>
                       <TableCell>{day.weather_description}</TableCell>

@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react'
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { RootState } from '../../store';
+import { RootState, useAppDispatch } from '../../store';
 import { logoutUser } from './sessionSlice';
 
 function Logout() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const refreshToken = useSelector((state : RootState) => state.session.accessToken);
 
   useEffect(() => {

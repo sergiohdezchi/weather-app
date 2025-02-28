@@ -1,5 +1,8 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import sessionReducer from "./features/sessions/sessionSlice";
+import { useDispatch } from "react-redux";
+
+export const useAppDispatch = () => useDispatch<AppDispatch>();
 
 export const store = configureStore({
   reducer: {

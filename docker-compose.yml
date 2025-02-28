@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: weather_db
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+
+  redis:
+    image: redis:latest
+    restart: always
+    ports:
+      - "6380:6379"
+
+  backend:
+    build: ./weather-service
+    depends_on:
+      - db
+      - redis
+    ports:
+      - "3000:3000"
+    env_file:
+      - weather-service/.env.example
+    volumes:
+      - ./weather-service:/app
+    command: ["rails", "server", "-b", "0.0.0.0"]
+
+  frontend:
+    build: ./weather-webapp
+    depends_on:
+      - backend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./weather-webapp:/app
+    env_file:
+      - weather-webapp/.env.example
+
+volumes:
+  pgdata:

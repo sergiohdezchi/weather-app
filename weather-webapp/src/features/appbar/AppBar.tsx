@@ -16,8 +16,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
 
-const pages = [];
-const settings = ['Logout'];
+const pages: any[] = [];
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
@@ -83,12 +82,7 @@ function ResponsiveAppBar() {
   </Box>;
   } else if (!accessToken && !loading) {
     sessionLinks = <>
-  <Button
-    onClick={(event) => handleNavigate("/login", event)}
-    sx={{ my: 2, color: 'white', display: 'block' }}
-  >
-    Login
-  </Button>
+
     </>
   }
 

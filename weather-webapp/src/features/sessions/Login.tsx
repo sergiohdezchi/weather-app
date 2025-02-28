@@ -3,7 +3,7 @@ import { Alert, Button, Card, CardContent, Container, FormControl, FormGroup, Ic
 import { useEffect, useRef, useState } from "react"
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { loginUser, resetErrorState } from "./sessionSlice";
+import { loginUser, resetErrorState, UserLoginData } from "./sessionSlice";
 import { RootState } from "../../store";
 
 function Login() {
@@ -38,7 +38,11 @@ function Login() {
       email: emailRef?.current?.value,
       password: passwordRef?.current?.value
     }
-    const response = await dispatch<any>(loginUser(payload)).unwrap();
+    const sanitizedPayload: UserLoginData = {
+      email: payload.email || "",
+      password: payload.password || "",
+    };
+    await dispatch<any>(loginUser(sanitizedPayload)).unwrap();
     if (errorMessages.length === 0) {
       navigate("/");
     } else {
