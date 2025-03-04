@@ -7,7 +7,7 @@ import Dashboard from './features/dashboard/Dashboard'
 import Logout from './features/sessions/Logout'
 import Login from './features/sessions/Login'
 import PublicOnlyRoute from './features/routes/PublicOnlyRoute'
-
+import CityDetails from './features/dashboard/CityDetails'
 
 function App() {
   return (
@@ -23,6 +23,11 @@ function App() {
                 <Route path="/" element={
                   <PrivateRoute>
                     <Dashboard />
+                  </PrivateRoute>
+                } />
+                <Route path="/city" element={
+                  <PrivateRoute>
+                    <CityDetails />
                   </PrivateRoute>
                 } />
                 <Route path="/logout" element={
