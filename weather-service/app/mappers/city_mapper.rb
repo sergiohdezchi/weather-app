@@ -3,18 +3,21 @@
 class CityMapper
   def self.map(city_data)
     {
-      city_name: city_data['city_name'],
-      city_slug: city_data['city_slug'],
-      state: normalize_name(city_data['state']),
+      city_name: city_data['city'],
+      city_slug: city_data['city'].parameterize,
+      data_id: city_data['wikiDataId'],
+      state: normalize_name(city_data['region']),
+      state_code: city_data['countryCode'],
       country: normalize_name(city_data['country']),
-      latitude: city_data['lat'],
-      longitude: city_data['long'],
-      result_type: city_data['result_type'],
-      popularity: city_data['popularity']
+      country_code: city_data['countryCode'],
+      latitude: city_data['latitude'],
+      longitude: city_data['longitude'],
+      result_type: city_data['type'].downcase,
+      popularity: city_data['population']
     }
   end
 
   def self.normalize_name(name)
-    name&.downcase&.tr(' ', '_')
+    name.to_s.strip.titleize
   end
 end

@@ -5,6 +5,7 @@ class ForecastSerializer
     forecast = forecast.deep_symbolize_keys
     {
       date: forecast[:date],
+      temp: forecast[:temp],
       min_temp: forecast[:min_temp],
       max_temp: forecast[:max_temp],
       weather: forecast[:weather],

@@ -19,7 +19,7 @@ class CityWeatherFetcher
   private
 
   def self.fetch_or_cache_weather(city_data)
-    weather_cache_key = "weather:#{city_data[:city_slug]}:#{city_data[:state]}:#{city_data[:country]}"
+    weather_cache_key = "weather:#{city_data[:data_id]}:#{city_data[:state_code]}:#{city_data[:country_code]}"
     cached_weather = CacheRepository.get(weather_cache_key)
     return cached_weather if cached_weather
 

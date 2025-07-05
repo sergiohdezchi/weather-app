@@ -11,10 +11,11 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
+import CloudIcon from '@mui/icons-material/Cloud';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
+import { motion } from 'framer-motion';
 
 const pages: any[] = [];
 
@@ -90,23 +91,54 @@ function ResponsiveAppBar() {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
-            sx={{
-              mr: 2,
+          <Box 
+            sx={{ 
               display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
+              alignItems: 'center'
             }}
+            component={motion.div}
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
           >
-            WEATHER
-          </Typography>
+            <CloudIcon 
+              sx={{ 
+                mr: 1, 
+                fontSize: '2rem',
+                filter: 'drop-shadow(0px 2px 4px rgba(0,0,0,0.2))'
+              }} 
+              component={motion.svg}
+              animate={{ 
+                y: [0, -5, 0],
+                rotate: [0, 5, 0]
+              }}
+              transition={{ 
+                duration: 3, 
+                ease: "easeInOut", 
+                repeat: Infinity,
+                repeatDelay: 1 
+              }}
+            />
+            <Typography
+              variant="h6"
+              noWrap
+              component="a"
+              href="#app-bar-with-responsive-menu"
+              sx={{
+                mr: 2,
+                fontFamily: 'monospace',
+                fontWeight: 700,
+                letterSpacing: '.2rem',
+                color: 'inherit',
+                textDecoration: 'none',
+                textShadow: '0px 2px 4px rgba(0,0,0,0.2)',
+                display: 'flex',
+                alignItems: 'center'
+              }}
+            >
+              WEATHER APP
+            </Typography>
+          </Box>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -142,7 +174,7 @@ function ResponsiveAppBar() {
               ))}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+          <CloudIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
           <Typography
             variant="h5"
             noWrap
@@ -159,7 +191,7 @@ function ResponsiveAppBar() {
               textDecoration: 'none',
             }}
           >
-            LOGO
+            WEATHER
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (

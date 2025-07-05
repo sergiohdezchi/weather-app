@@ -6,6 +6,7 @@ class ForecastMapper
 
     {
       date: Time.at(day['dt']).to_date,
+      temp: day['main']['temp'],
       min_temp: day['main']['temp_min'],
       max_temp: day['main']['temp_max'],
       weather: day['weather'][0]['main'],

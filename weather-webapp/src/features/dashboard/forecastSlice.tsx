@@ -3,6 +3,7 @@ import { getCityDetails } from "../../api/weatherAPI";
 import { RootState } from "../../store";
 
 interface ForecastData {
+  temp: number;
   date: string;
   weather_description: string;
   min_temp: number;
@@ -36,7 +37,12 @@ export const fetchCityForecast = createAsyncThunk(
   ) => {
     try {
       const response = await getCityDetails(token, citySlug, state, country, latitude, longitude);
-      return response.forecast;
+
+      if (response.status != 200) {
+        return rejectWithValue(response.data);
+      }
+
+      return response.data.forecast;
     } catch (error: any) {
       return rejectWithValue(error.response?.data || "Error fetching forecast");
     }

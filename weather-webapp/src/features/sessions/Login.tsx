@@ -1,10 +1,12 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { Alert, Button, Card, CardContent, Container, FormControl, FormGroup, IconButton, Input, InputAdornment, InputLabel, OutlinedInput, Typography } from "@mui/material";
-import { useEffect, useRef, useState } from "react"
+import { Alert, Button, Card, CardContent, Container, FormControl, FormGroup, IconButton, InputAdornment, InputLabel, OutlinedInput, Typography, Box } from "@mui/material";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { loginUser, resetErrorState, UserLoginData } from "./sessionSlice";
 import { RootState } from "../../store";
+import { motion } from "framer-motion";
+import CloudIcon from "@mui/icons-material/Cloud";
 
 function Login() {
   const emailRef = useRef<HTMLInputElement>(null);
@@ -50,69 +52,151 @@ function Login() {
     }
   }
 
-  const passwordInput = <OutlinedInput 
-  id="password" type={showPassword ? 'text' : 'password'}
-  inputRef={passwordRef} endAdornment={
-    <InputAdornment position="end">
-        <IconButton
-            aria-label="toggle password visibility"
-            onClick={() => setShowPassword(!showPassword)}
-            onMouseDown={() => setShowPassword(!showPassword)}
-            edge="end">
-                {showPassword ? <Visibility /> : <VisibilityOff />}
-        </IconButton>
-    </InputAdornment>
-  } />
+  // Configuración para el input de contraseña ya se maneja directamente en el formulario
 
   return (
-    <section style={{marginTop: '2em'}}>
-        <Container maxWidth="md">
-            <Card sx={{boxShadow:1, maxWidth: "md"}}>
-                <CardContent>
-                    <Container maxWidth="sm">
-                        <Typography variant="h2" color="text.primary" gutterBottom>
-                            Login
-                        </Typography>
-                        {
-                            errors.length > 0 ?  
-                            <Alert severity="error" aria-live="assertive">
-                                {
-                                    errors.map((error, index) => {
-                                        return <p key={`alert-${index}`}>{error}</p>
-                                    }) 
-                                }
-                            </Alert>
-                            : <></>
-                        }
-                        <form onSubmit={handleSubmit}>
-                            <FormGroup row={true} id="email-group" sx={{marginTop: "1em"}}>
-                                <FormControl fullWidth>
-                                    <InputLabel required htmlFor="email" id="email-label">Email Address</InputLabel>
-                                    <Input id="email" type="email" inputRef={emailRef}/>
-                                </FormControl>
-                            </FormGroup>
-                            <FormGroup row={true} id="password-group" sx={{marginTop: "1em"}}>
-                                <FormControl fullWidth>
-                                    <InputLabel required htmlFor="password" id="password-label">Password</InputLabel>
-                                    {passwordInput}
-                                </FormControl>
-                            </FormGroup>
-                            <FormGroup row={true} id="submit-group" sx={{marginTop: "1em"}}>
-                                <FormControl fullWidth>
-                                    <Button 
-                                    disabled={loading} 
-                                    variant="contained" 
-                                    color="primary" 
-                                    type="submit" 
-                                    id="submit-button">Login</Button>
-                                </FormControl>
-                            </FormGroup>
-                        </form>
-                    </Container>
-                </CardContent>
-            </Card>
-        </Container>
-    </section>
+    <Box
+      component="section"
+      sx={{ 
+        mt: 4,
+        minHeight: 'calc(100vh - 200px)', 
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}
+    >
+      <Container maxWidth="sm">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <Card 
+            sx={{ 
+              boxShadow: 4, 
+              borderRadius: 3,
+              overflow: 'hidden'
+            }}
+          >
+            <Box sx={{ 
+              p: 4, 
+              background: 'linear-gradient(135deg, #1565c0 0%, #0288d1 100%)',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              flexDirection: 'column',
+              color: 'white'
+            }}>
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ 
+                  type: "spring", 
+                  stiffness: 260, 
+                  damping: 20,
+                  delay: 0.2
+                }}
+              >
+                <CloudIcon sx={{ fontSize: 60, mb: 1 }} />
+              </motion.div>
+              <Typography 
+                variant="h4" 
+                component="h1" 
+                fontWeight="600" 
+                textAlign="center"
+                sx={{ textShadow: '0px 2px 4px rgba(0,0,0,0.2)' }}
+              >
+                Weather App
+              </Typography>
+              <Typography variant="subtitle1" textAlign="center">
+                Inicia sesión para acceder a la información del clima
+              </Typography>
+            </Box>
+            <CardContent sx={{ p: 4 }}>
+              {errors.length > 0 && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <Alert 
+                    severity="error" 
+                    aria-live="assertive"
+                    sx={{ mb: 3 }}
+                  >
+                    {errors.map((error, index) => (
+                      <Typography key={`alert-${index}`} variant="body2">{error}</Typography>
+                    ))} 
+                  </Alert>
+                </motion.div>
+              )}
+              <form onSubmit={handleSubmit}>
+                <FormGroup sx={{ mb: 3 }}>
+                  <FormControl variant="outlined" fullWidth>
+                    <InputLabel required htmlFor="email" id="email-label">
+                      Email
+                    </InputLabel>
+                    <OutlinedInput
+                      id="email"
+                      type="email"
+                      inputRef={emailRef}
+                      label="Email"
+                      sx={{ borderRadius: 2 }}
+                    />
+                  </FormControl>
+                </FormGroup>
+                <FormGroup sx={{ mb: 4 }}>
+                  <FormControl variant="outlined" fullWidth>
+                    <InputLabel required htmlFor="password" id="password-label">
+                      Password
+                    </InputLabel>
+                    <OutlinedInput
+                      id="password"
+                      type={showPassword ? 'text' : 'password'}
+                      inputRef={passwordRef}
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={() => setShowPassword(!showPassword)}
+                            onMouseDown={() => setShowPassword(!showPassword)}
+                            edge="end"
+                          >
+                            {showPassword ? <Visibility /> : <VisibilityOff />}
+                          </IconButton>
+                        </InputAdornment>
+                      }
+                      label="Password"
+                      sx={{ borderRadius: 2 }}
+                    />
+                  </FormControl>
+                </FormGroup>
+                <Button 
+                  disabled={loading} 
+                  variant="contained" 
+                  color="primary" 
+                  type="submit" 
+                  id="submit-button"
+                  fullWidth
+                  size="large"
+                  sx={{ 
+                    py: 1.2, 
+                    borderRadius: 2,
+                    textTransform: 'none',
+                    fontSize: '1rem'
+                  }}
+                  component={motion.button}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  Iniciar Sesión
+                </Button>
+              </form>
+            </CardContent>
+          </Card>
+        </motion.div>
+      </Container>
+    </Box>
   )
 }
 

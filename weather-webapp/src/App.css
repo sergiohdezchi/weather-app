@@ -1,0 +1,58 @@
+/* Estilos generales */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+}
+
+/* Animaciones para elementos */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Transiciones suaves para elementos interactivos */
+button, a, .MuiCard-root {
+  transition: all 0.3s ease-in-out;
+}
+
+/* Personalizaciones de Material UI */
+.MuiPaper-root {
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+/* Estilo para el contenido principal */
+main {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Mejoras para dispositivos móviles */
+@media (max-width: 600px) {
+  .MuiContainer-root {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}

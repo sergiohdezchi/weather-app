@@ -16,7 +16,7 @@ export async function getCities(token: string) {
       return response.data;
     })
     .catch((error: any) => {
-      return error.response.data;
+      return error.response;
     });
 }
 
@@ -44,10 +44,10 @@ export async function getCityDetails(
     return axios
       .get(FORECAST_URL, data)
       .then((response: any) => {
-        return response.data;
+        return response;
       })
       .catch((error: any) => {
-        return error.response.data;
+        return error.response;
       });
   }
   
