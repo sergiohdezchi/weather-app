@@ -106,7 +106,7 @@ function Login() {
                 textAlign="center"
                 sx={{ textShadow: '0px 2px 4px rgba(0,0,0,0.2)' }}
               >
-                Weather App
+                ClimaSphere
               </Typography>
               <Typography variant="subtitle1" textAlign="center">
                 Inicia sesión para acceder a la información del clima
