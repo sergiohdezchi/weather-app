@@ -2,9 +2,9 @@
 
 <div align="center">
   
-![Banner ClimaSphere](https://via.placeholder.com/800x300/1565c0/FFFFFF?text=ClimaSphere)
+![Banner ClimaSphere](images/banner.png)
 
-> *Donde la meteorología se transforma en arte*
+> *El clima que necesitas, al instante.*
 
 [![Rails Version](https://img.shields.io/badge/Rails-7.0.0-red.svg)](https://rubyonrails.org/)
 [![React Version](https://img.shields.io/badge/React-19.0.0-blue.svg)](https://reactjs.org/)
@@ -32,12 +32,20 @@
 <div align="center">
   <table>
     <tr>
-      <td><img src="https://via.placeholder.com/400x250/1565c0/FFFFFF?text=ClimaSphere+Dashboard" alt="ClimaSphere Dashboard"/></td>
-      <td><img src="https://via.placeholder.com/400x250/ff9800/FFFFFF?text=Forecast+Details" alt="Forecast Details"/></td>
+      <td><img src="images/login.png?text=login" alt="ClimaSphere Login"/></td>
+      <td><img src="images/loader.png?text=loader" alt="Loader"/></td>
     </tr>
     <tr>
-      <td><img src="https://via.placeholder.com/400x250/4caf50/FFFFFF?text=City+Explorer" alt="City Explorer"/></td>
-      <td><img src="https://via.placeholder.com/400x250/9c27b0/FFFFFF?text=ClimaSphere+Portal" alt="ClimaSphere Portal"/></td>
+      <td><img src="images/dashboard.png?text=ClimaSphere+Dashboard" alt="ClimaSphere Dashboard"/></td>
+      <td><img src="images/details.png?text=Forecast+Details" alt="Forecast Details"/></td>
+    </tr>
+    <tr>
+      <td><img src="images/login-mobile.png?text=ClimaSphere+login+mobile" alt="ClimaSphere Mobil Login"/></td>
+      <td><img src="images/dashboard-mobile.png?text=Forecast+Details+mobile" alt="Forecast Mobile Details"/></td>
+    </tr>
+    <tr>
+      <td><img src="images/details-mobile.png?text=ClimaSphere+details+mobile" alt="ClimaSphere Mobil Details"/></td>
+      <td><img src="images/loader-mobile.png?text=Forecast+Loader+mobile" alt="Forecast Loader Details"/></td>
     </tr>
   </table>
 </div>
@@ -62,7 +70,7 @@ La aplicación está construida siguiendo principios de arquitectura limpia y pa
 
 - [Docker](https://www.docker.com/get-started) y [Docker Compose](https://docs.docker.com/compose/install/)
 - [Git](https://git-scm.com/downloads) (opcional, para clonar el repositorio)
-- Una clave de API de [OpenWeather](https://openweathermap.org/api)
+- Una clave de API de [OpenWeather](https://openweathermap.org/api) Y [RapidApi](https://rapidapi.com/wirefreethought/api)
 
 ### Guía rápida de instalación
 
@@ -70,16 +78,11 @@ La aplicación está construida siguiendo principios de arquitectura limpia y pa
 <summary><b>1️⃣ Configurar Variables de Entorno</b></summary>
 <br>
 
-Crea un archivo `.env` en la carpeta `weather-service` usando el template proporcionado:
-
-```bash
-cp weather-service/.env.example weather-service/.env
-```
-
-Abre el archivo `.env` y configura tu API key:
+Abre el archivo `.env.example` y configura tu API key:
 
 ```env
 OPENWEATHER_API_KEY=tu_api_key_aquí
+RAPIDAPI_KEY=tu_api_key_aquí
 ```
 </details>
 
@@ -116,8 +119,8 @@ docker-compose exec weather-service rails db:seed
 ```
 
 Esto creará un usuario de prueba:
-- Email: `user@example.com`
-- Password: `password`
+- Email: `admin@example.com`
+- Password: `123456ab`
 </details>
 
 ### 🌐 Acceso a ClimaSphere
@@ -151,18 +154,6 @@ docker-compose down -v
 # Ejecutar comandos en el contenedor de Rails
 docker-compose exec weather-service rails console
 docker-compose exec weather-service rails db:migrate
-```
-
-## 🧪 Pruebas
-
-La aplicación incluye un conjunto completo de tests automatizados:
-
-```bash
-# Ejecutar pruebas del backend
-docker-compose exec weather-service rails test
-
-# Ejecutar pruebas del frontend
-docker-compose exec weather-webapp npm test
 ```
 
 ## 🛠️ Stack Tecnológico
@@ -211,35 +202,6 @@ La API del backend proporciona los siguientes endpoints:
 | POST | `/oauth/token` | Obtener token de acceso | ❌ |
 | POST | `/api/v1/users` | Registro de usuario | ❌ |
 
-## 🔍 La magia detrás de ClimaSphere
-
-### Exploración Global Inteligente
-
-ClimaSphere transforma la búsqueda de ciudades en una experiencia fluida:
-
-- **Sugerencias predictivas** que anticipan tu búsqueda mientras escribes
-- **Algoritmo de relevancia** que prioriza resultados según tu ubicación y búsquedas anteriores
-- **Sistema de caché adaptativo** que aprende de los patrones de uso colectivos
-
-### Visualización Atmosférica
-
-La información meteorológica cobra vida con representaciones visuales inmersivas:
-
-- **Interfaz reactiva al clima** que adapta colores, iconos y animaciones según las condiciones
-- **Transiciones suaves** entre estados meteorológicos con animaciones fluidas
-- **Gráficos de tendencias** que permiten comprender patrones climáticos de un vistazo
-- **Mapas térmicos interactivos** para visualizar cambios de temperatura por zonas
-
-## 🤝 Contribución
-
-Las contribuciones son bienvenidas. Para contribuir:
-
-1. Haz un fork del proyecto
-2. Crea tu rama de características (`git checkout -b feature/amazing-feature`)
-3. Haz commit de tus cambios (`git commit -m 'Add some amazing feature'`)
-4. Push a la rama (`git push origin feature/amazing-feature`)
-5. Abre un Pull Request
-
 ## 📄 Licencia
 
 Este proyecto está licenciado bajo la Licencia MIT - vea el archivo [LICENSE](LICENSE) para más detalles.
@@ -248,9 +210,5 @@ Este proyecto está licenciado bajo la Licencia MIT - vea el archivo [LICENSE](L
 
 <div align="center">
   <p>🌈 <b>ClimaSphere</b> - El clima mundial en la palma de tu mano</p>
-  <p>Desarrollado con ❤️ por <a href="https://github.com/yourusername">Tu Nombre</a></p>
-  <p>
-    <a href="https://github.com/yourusername/climasphere/issues">Reportar Bug</a> ·
-    <a href="https://github.com/yourusername/climasphere/issues">Solicitar Feature</a>
-  </p>
+  <p>Desarrollado con ❤️ por <a href="https://github.com/sergiohdezchi">Sergio Hernandez</a></p>
 </div>

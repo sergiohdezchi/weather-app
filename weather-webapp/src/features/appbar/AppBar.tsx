@@ -49,14 +49,45 @@ function ResponsiveAppBar() {
     navigate('/logout');
   }
 
+  // Generar opciones para el menú de navegación móvil
+  const getNavigationItems = () => {
+    if (accessToken) {
+      return [
+        { 
+          label: 'Dashboard', 
+          onClick: () => navigate('/') 
+        },
+        { 
+          label: 'Cerrar Sesión', 
+          onClick: () => navigate('/logout') 
+        }
+      ];
+    }
+    return [
+      { 
+        label: 'Iniciar Sesión', 
+        onClick: () => navigate('/login') 
+      }
+    ];
+  };
+
+  const navigationItems = getNavigationItems();
+
+  // Preparar los enlaces de sesión para escritorio
   let sessionLinks;
   if (accessToken) {
     sessionLinks = <Box sx={{ flexGrow: 0 }}>
     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
       <Typography marginRight={2} marginTop={1} textAlign="center">{currentUser?.email}</Typography>
-      <Tooltip title="Open settings">
-        <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-          <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+      <Tooltip title="Opciones de usuario">
+        <IconButton 
+          onClick={handleOpenUserMenu} 
+          sx={{ p: 0 }}
+          component={motion.button}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <Avatar alt={currentUser?.email || 'Usuario'} src="/static/images/avatar/2.jpg" />
         </IconButton>
       </Tooltip>
     </Box>
@@ -76,15 +107,26 @@ function ResponsiveAppBar() {
       open={Boolean(anchorElUser)}
       onClose={handleCloseUserMenu}
     >
-        <MenuItem onClick={(event) => handleLogout(event)}>
-          <Typography textAlign="center">Logout</Typography>
+        <MenuItem 
+          onClick={(event) => handleLogout(event)}
+          component={motion.li}
+          whileHover={{ backgroundColor: 'rgba(0,0,0,0.04)' }}
+        >
+          <Typography textAlign="center">Cerrar Sesión</Typography>
         </MenuItem>
     </Menu>
   </Box>;
   } else if (!accessToken && !loading) {
-    sessionLinks = <>
-
-    </>
+    sessionLinks = <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
+      <Button 
+        color="inherit" 
+        onClick={() => navigate('/login')}
+        variant="outlined"
+        sx={{ borderRadius: '20px', px: 2 }}
+      >
+        Iniciar Sesión
+      </Button>
+    </Box>;
   }
 
   return (
@@ -143,11 +185,13 @@ function ResponsiveAppBar() {
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
-              aria-label="account of current user"
+              aria-label="opciones de navegación"
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
               color="inherit"
+              component={motion.button}
+              whileTap={{ scale: 0.9 }}
             >
               <MenuIcon />
             </IconButton>
@@ -167,32 +211,83 @@ function ResponsiveAppBar() {
               onClose={handleCloseNavMenu}
               sx={{ display: { xs: 'block', md: 'none' } }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography sx={{ textAlign: 'center' }}>{page}</Typography>
+              {/* Mostrar información del usuario en el menú móvil si está autenticado */}
+              {accessToken && (
+                <Box sx={{ px: 2, py: 1, borderBottom: '1px solid rgba(0,0,0,0.1)' }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                    <Avatar 
+                      sx={{ width: 32, height: 32, mr: 1 }}
+                      alt={currentUser?.email || 'Usuario'}
+                    />
+                    <Typography variant="subtitle1" noWrap>
+                      {currentUser?.email}
+                    </Typography>
+                  </Box>
+                </Box>
+              )}
+              
+              {/* Opciones de navegación */}
+              {navigationItems.map((item, index) => (
+                <MenuItem 
+                  key={`nav-item-${index}`} 
+                  onClick={() => {
+                    handleCloseNavMenu();
+                    item.onClick();
+                  }}
+                  component={motion.li}
+                  whileHover={{ backgroundColor: 'rgba(0,0,0,0.04)' }}
+                >
+                  <Typography textAlign="center">{item.label}</Typography>
                 </MenuItem>
               ))}
             </Menu>
           </Box>
-          <CloudIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
-            sx={{
-              mr: 2,
-              display: { xs: 'flex', md: 'none' },
+          <Box 
+            sx={{ 
+              display: { xs: 'flex', md: 'none' }, 
               flexGrow: 1,
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
+              alignItems: 'center' 
             }}
+            component={motion.div}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
           >
-            ClimaSphere
-          </Typography>
+            <CloudIcon 
+              sx={{ 
+                mr: 1,
+                fontSize: '1.5rem',
+                filter: 'drop-shadow(0px 1px 2px rgba(0,0,0,0.2))'
+              }}
+              component={motion.svg}
+              animate={{ 
+                y: [0, -3, 0],
+                rotate: [0, 5, 0]
+              }}
+              transition={{ 
+                duration: 3, 
+                ease: "easeInOut", 
+                repeat: Infinity,
+                repeatDelay: 1 
+              }}
+            />
+            <Typography
+              variant="h6"
+              noWrap
+              component="a"
+              href="#app-bar-with-responsive-menu"
+              sx={{
+                fontFamily: 'monospace',
+                fontWeight: 700,
+                letterSpacing: '.2rem',
+                color: 'inherit',
+                textDecoration: 'none',
+                textShadow: '0px 1px 2px rgba(0,0,0,0.2)'
+              }}
+            >
+              ClimaSphere
+            </Typography>
+          </Box>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
@@ -204,6 +299,7 @@ function ResponsiveAppBar() {
               </Button>
             ))}
           </Box>
+          {/* Sesión para escritorio */}
           {sessionLinks}
         </Toolbar>
       </Container>
