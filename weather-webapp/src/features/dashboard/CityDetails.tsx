@@ -59,6 +59,26 @@ function kelvinToCelsius(kelvin: number | undefined) {
   return `${(kelvin - 273.15).toFixed(1)}°C`;
 }
 
+// Función para formatear fechas ISO a un formato más legible
+function formatDate(isoDate: string | undefined) {
+  if (!isoDate) return "N/A";
+  
+  // Crear objeto Date a partir del string ISO
+  const date = new Date(isoDate);
+  
+  // Opciones de formateo
+  const options: Intl.DateTimeFormatOptions = { 
+    weekday: 'short', 
+    day: 'numeric', 
+    month: 'short',
+    hour: '2-digit',
+    minute: '2-digit'
+  };
+  
+  // Formatear la fecha en español
+  return date.toLocaleDateString('es-ES', options);
+}
+
 const CityDetails = () => {
     const location = useLocation();
     const navigate = useNavigate();
@@ -217,7 +237,7 @@ const CityDetails = () => {
                   <Box display="flex" alignItems="center">
                     <CalendarTodayIcon fontSize="small" sx={{ mr: 1, color: 'primary.main' }} />
                     <Typography>
-                      {selectedDayData.date}
+                      {formatDate(selectedDayData.date)}
                     </Typography>
                   </Box>
                 </Grid>
@@ -303,7 +323,7 @@ const CityDetails = () => {
                   {getWeatherIcon(day.weather_description)}
                 </Box>
                 <Typography variant="body2" fontWeight="bold" textAlign="center">
-                  {day.date}
+                  {formatDate(day.date)}
                 </Typography>
                 <Divider sx={{ my: 1 }} />
                 <Box textAlign="center">
@@ -358,7 +378,7 @@ const CityDetails = () => {
                   }}
                   onClick={() => setSelectedDay(index)}
                 >
-                  <TableCell>{day.date}</TableCell>
+                  <TableCell>{formatDate(day.date)}</TableCell>
                   <TableCell>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                       {getWeatherIcon(day.weather_description)}
