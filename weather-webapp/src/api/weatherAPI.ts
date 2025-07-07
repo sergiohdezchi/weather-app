@@ -3,10 +3,20 @@ import axios from "./axios";
 const CITITES_URL = "/cities";
 const FORECAST_URL = "/weather_forecasts";
 
-export async function getCities(token: string) {
+export interface CitySearchParams {
+  city?: string;
+  page?: number;
+  token: string;
+}
+
+export async function getCities({ token, city, page = 1 }: CitySearchParams) {
   const data = {
+    params: {
+      city,
+      page,
+    },
     headers: {
-        Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${token}`,
     },
   };
 
